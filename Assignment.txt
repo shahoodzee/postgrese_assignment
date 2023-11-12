@@ -1,0 +1,143 @@
+For this assignment you are required to submit a single zip file containing 6 sql files named as follows:
+
+createdb.sql
+inserts.sql
+query1.sql
+query2.sql
+query3.sql
+query4.sql
+Submit your zip file using this submission link.
+
+Assignment instructions
+Consider the following relational model that represents part of an online shop’s database. Items are bought by customers and customers provide ratings for items by assigning them a star rating of either 0, 1, 2, 3, 4 or 5 (where 5 is the highest rating). It is possible for customers to rate the same product more than once. 
+
+Table name - item
+
+item_id	  item_name	  item_price	  item_manufacturer
+1	  laptop	  1022.99	  Samsung
+2	  keyboard	  22.99	  Samsung
+3	  mouse	  11.99	  HP
+4	  monitor	  422.98	  Dell
+5	  phone	  477.50	  Apple
+Primary Key = item_id
+
+Data types:
+   item_id must only support integer values
+   item_name, item_manufacturer must support any character
+   item_price must support prices in UK currency
+
+----
+
+Table name - customer
+
+customer_id 	customer_name 	customer_address  
+1	wilma	1 Somewhere St
+2	bob	27 Overboard Close
+3	fred	19 The Avenue
+4	petal	2a Rainbow Road
+5	mindy	Flat 7, Cloud View
+
+Primary Key: customer_id
+Data types:
+   customer_id must only support integer values
+   customer_name, customer_address must support any character
+----
+Table name - rating
+item_id  	customer_id  	rating_date  	rating_stars  
+1	1	2022-09-28	5
+3	2	2020-09-01	2
+3	2	2021-07-12	4
+3	2	2022-11-30	1
+4	3	2022-08-19	3
+4	3	2023-01-07	2
+5	5	2022-01-12	3
+5	5 	2022-09-12	5
+Primary Key: item_id, customer_id, rating_date
+Foreign Key: item_id references item_id in item table
+Foreign Key: customer_id references customer_id in customer table
+Data types:
+   item_id must only support integer values
+   customer_id must only support integer values
+   rating_date must only support dates
+   rating_stars must only support integer values
+
+----
+Table name - invoice
+invoice_id  	item_id  	customer_id  	item_quantity  	total_cost 
+1		5	1		2		955.00
+2		5	2		10		4775.00
+3
+1		2	2				2045.98
+4		2	3		1		22.99
+5
+3		4	4				47.96
+Primary Key: invoice_id
+Foreign Key: item_id references item_id in item table
+Foreign Key: customer_id references customer_id in customer table
+Data types:
+   invoice_id  must only support integer values
+   item_id  must only support integer values
+   customer_id  must only support integer values
+   item_quantity  must only support integer values
+   total_cost must support prices in UK currency
+
+Question 1. (20 marks)
+Create a file named createdb.sql and add valid Postgres SQL statements to create the 4 tables described above. 
+
+You must:
+
+include the primary keys
+include the referential integrity constraints that should hold (foreign keys)
+ensure that all fields have a suitable data type 
+ensure that all fields are defined to be mandatory
+Table and column names must exactly match those listed in the schemas above. Your sql file must be named exactly as described above. Test your SQL before submission to ensure it runs without error.
+
+Question 2. (10 marks)
+
+
+Create a file named inserts.sql and add SQL INSERT statements to populate your tables with the test data listed above, ensuring you enter the data exactly as written above i.e. maintaining case sensitivity of the upper and lower case letters. This is important as PostgreSQL is case sensitive when sorting or comparing string values, so "Samsung" is different to "samsung".
+
+Your sql file must be named exactly as described above. Test your SQL before submission to ensure it runs without error.
+
+Question 3. (70 marks)
+Important note - for each query in this section, ensure your files are named exactly as listed below. Also ensure your SQL queries return only the information specified and in the order specified. DO NOT create views. Test your SQL before submission to ensure it runs without error.
+
+(10 marks) Create a file named query1.sql and add an SQL statement to return the following:
+
+The name of all items manufactured by ‘Samsung’, in descending order of price.
+
+Expected output:
+expected results - 2 rows containing laptop and keyboard
+
+(20 marks) Create a file named query2.sql and add an SQL statement to return the following:
+
+The name of all items that had at least one rating of 4 or more stars. No duplicate names should be returned. 
+
+Expected output (items can appear in any order):
+
+3 rows containing laptop, mouse and phone. 
+
+
+
+(20 marks) Create a file named query3.sql  and add an SQL statement to return the following:
+
+For all items, return the following information (in this order):
+
+item name 
+average star rating rounded to 2 decimal places
+most recent rating date
+The results must be returned in descending order of average star rating (i.e. with the highest average star rating displayed first).  
+
+Expected output:
+
+4 rows containing laptop, 5.00, 2022-09-28 and phone, 4.00, 2022-09-12 and monitor, 2.50. 2023-01-07 and mouse, 2.33, 2022-11
+
+(20 marks) Create a file named query4.sql  and add an SQL statement to return the following:
+
+For all cases in which the same customer rated the same item more than once, and at some point in time gave it a higher rating than before, return the following information about the product (in this order):
+the customer name
+the name of the item
+the highest star rating that was given
+Expected output (rows may appear in any order):
+
+2 rows containing bob, mouse, 4 and mindy, phone, 5

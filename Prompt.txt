@@ -1,0 +1,99 @@
+I want you to write me set of MSSQL queries. 
+
+Create the first table named `item`.tem table has following columns:
+1. item_id which is integer and it is also primary key
+2. item_name which is nvarchar(20)
+3. item_manufacturer which is also nvarchar(20)
+3. item_price which is currency in pounds of UK
+
+
+Create the second table named `customer`. customer table has following columns:
+1. customer_id which is integer and it is also primary key
+2. customer_name which is char(20)
+3. customer_manufacturer which is also nvarchar(30)
+
+Create the third table named `rating`. rating table has following columns:
+1. rating_id which is integer and it is also primary key
+2. item_id which is forgien key from item table.
+3. customer_id which forgein key from customrt table.
+4. rating_date which is a datetime2 type data variabel
+5. rating_starts which is a integer range between 1 to 5. 
+
+
+include the referential integrity constraints that should hold (foreign keys)
+ensure that all fields have a suitable data type 
+ensure that all fields are defined to be mandatory in all the tables.
+
+After writing create table query for each of the table. Write a Insert_into query for each table so i can fill these tables.
+
+Now I want another table named `invoice`. invoice table has following coloumns:
+1. invoice_id which is integer and it is also primary key
+2. item_id which is forgien key from item table.
+3. customer_id which forgein key from customrt table.
+4. item_quantity which is an integer type.
+5. total_cost which is currency in pounds of UK.
+
+Also write me an INSERT query to fill up the invoice table.
+
+-- Create item table
+CREATE TABLE item (
+    item_id SERIAL PRIMARY KEY,
+    item_name VARCHAR(20) NOT NULL,
+    item_manufacturer VARCHAR(20) NOT NULL,
+    item_price MONEY NOT NULL
+);
+
+-- Create customer table
+CREATE TABLE customer (
+    customer_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(20) NOT NULL,
+    customer_manufacturer VARCHAR(50) NOT NULL
+);
+
+-- Create rating table
+CREATE TABLE rating (
+    rating_id SERIAL PRIMARY KEY,
+    item_id INTEGER REFERENCES item(item_id) ON DELETE CASCADE,
+    customer_id INTEGER REFERENCES customer(customer_id) ON DELETE CASCADE,
+    rating_date DATE NOT NULL,
+    rating_stars INTEGER CHECK (rating_stars BETWEEN 1 AND 5) NOT NULL
+);
+
+-- Create invoice table
+CREATE TABLE invoice (
+    invoice_id SERIAL PRIMARY KEY,
+    item_id INTEGER REFERENCES item(item_id) ON DELETE CASCADE,
+    customer_id INTEGER REFERENCES customer(customer_id) ON DELETE CASCADE,
+    item_quantity INTEGER NOT NULL,
+    total_cost MONEY NOT NULL
+);
+
+-- Insert data into item table
+INSERT INTO item (item_name, item_manufacturer, item_price)
+VALUES ('Item1', 'Manufacturer1', '50.00'),
+       ('Item2', 'Manufacturer2', '30.00'),
+       ('Item3', 'Manufacturer3', '25.50');
+
+-- Insert data into customer table
+INSERT INTO customer (customer_name, customer_manufacturer)
+VALUES ('Customer1', 'ManufacturerA'),
+       ('Customer2', 'ManufacturerB'),
+       ('Customer3', 'ManufacturerC');
+
+-- Insert data into rating table
+INSERT INTO rating (item_id, customer_id, rating_date, rating_stars)
+VALUES (1, 1, '2023-01-01', 4),
+       (2, 2, '2023-02-01', 5),
+       (3, 3, '2023-03-01', 3);
+
+-- Insert data into invoice table
+INSERT INTO invoice (item_id, customer_id, item_quantity, total_cost)
+VALUES (1, 1, 2, '100.00'),
+       (2, 2, 1, '30.00'),
+       (3, 3, 3, '76.50');
+
+-- Fetching all the data from each table.
+SELECT * FROM customer;
+SELECT * FROM invoice;
+SELECT * FROM rating;
+SELECT * FROM item;
