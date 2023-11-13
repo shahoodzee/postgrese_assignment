@@ -31,7 +31,9 @@ VALUES (1, 1, '2022-09-28', 5),
 -- Insert data into invoice table
 INSERT INTO invoice (item_id, customer_id, item_quantity, total_cost)
 VALUES (5, 1, 2, '955.00'),
-       (5, 2, 10, '30.00'),
-       (2, 3, 1, '22.99');
+       (5, 2, 10, '4775.00'),
+       (1, 2, 2, '2045.98'),
+       (2, 3, 1, '22.99'),
+       (3, 4, 4, '47.96');
 
 

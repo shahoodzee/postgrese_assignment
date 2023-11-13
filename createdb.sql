@@ -5,6 +5,8 @@ CREATE TABLE item (
     item_price MONEY NOT NULL,
     item_manufacturer CHAR(20) NOT NULL
 );
+-- Set the LC_MONETARY configuration to display pounds
+SET LC_MONETARY = 'en_GB.UTF-8';
 
 -- Create customer table
 CREATE TABLE customer (
@@ -30,3 +32,5 @@ CREATE TABLE invoice (
     item_quantity INTEGER NOT NULL,
     total_cost MONEY NOT NULL
 );
+-- Set the LC_MONETARY configuration to display pounds
+SET LC_MONETARY = 'en_GB.UTF-8';
